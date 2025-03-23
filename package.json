@@ -1,0 +1,19 @@
+{
+  "name": "cse341-project2",
+  "version": "1.0.0",
+  "description": "My Second Project for CSE 341",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.15.0"
+  }
+}
