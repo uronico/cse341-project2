@@ -5,8 +5,16 @@ const saveContact = (req, res, next) => {
     firstName: 'required|string',
     lastName: 'required|string',
     email: 'required|email',
-    favoriteColor: 'required|string',
-    birthday: 'string'
+    address: 'required|string',
+    phoneNumber: 'string',
+    bookTitle: 'required|string',
+    authorName: 'required|string',
+    borrowerName: 'required|string',
+    dateBorrowed: 'required|string',
+    dateReturn: 'required|string',
+    phoneNumber: 'required|string',
+    librarian: 'required|string',
+
   };
   validator(req.body, validationRule, {}, (err, status) => {
     if (!status) {

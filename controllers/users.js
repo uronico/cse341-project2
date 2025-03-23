@@ -3,12 +3,8 @@ const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (req, res) => {
     //#swagger.tags=['Users']
-    mongodb
-    .getDatabase()
-    .db()
-    .collection('users')
-    .find()
-    .toArray((err, lists) => {
+    const result = await mongodb.getDatabase().db().collection('personalinfo', 'books').find();
+    result.toArray(err, lists).then((users) => {
         if (err){
             res.status(400).json({ message: err});
         }
@@ -24,12 +20,8 @@ const getSingle = async (req, res) => {
       }
 
     const userId = new ObjectId(req.params.id);
-    mongodb
-    .getDatabase()
-    .db()
-    .collection('users')
-    .find({ _id: userId })
-    .toArray((err, result) => {
+    const result = await mongodb.getDatabase().db().collection('personalinfo', 'books').find({ _id: userId });
+    result.toArray(err, result).then((users) => {
         if (err){
             res.status(400).json({ message: err});
         }
@@ -45,10 +37,21 @@ const createUser = async (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        favoriteColor: req.body.favoriteColor,
-        birthday: req.body.birthday
+        address: req.body.address,
+        phoneNumber: req.body.phoneNumber
     }
-    const response = await mongodb.getDatabase().db().collection('users').insertOne(user);
+
+    const books = {
+        bookTitle: req.body.bookTitle,
+        authorName: req.body.authorName,
+        borrowerName: req.body.borrowerName,
+        dateBorrowed: req.body.dateBorrowed,
+        dateReturn: req.body.dateReturn,
+        phoneNumber: req.body.phoneNumber,
+        librarian: req.body.librarian
+    }
+
+    const response = await mongodb.getDatabase().db().collection('users').insertOne(user, books);
     if (response.acknowledged > 0) {
         res.status(204).send();
     } else {
@@ -63,14 +66,25 @@ const updateUser = async (req, res) => {
       }
 
     const userId = new ObjectId(req.params.id);
-    const user = {
+     const user = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        favoriteColor: req.body.favoriteColor,
-        birthday: req.body.birthday
+        address: req.body.address,
+        phoneNumber: req.body.phoneNumber
     }
-    const response = await mongodb.getDatabase().db().collection('users').replaceOne({ _id: userId }, user);
+
+    const books = {
+        bookTitle: req.body.bookTitle,
+        authorName: req.body.authorName,
+        borrowerName: req.body.borrowerName,
+        dateBorrowed: req.body.dateBorrowed,
+        dateReturn: req.body.dateReturn,
+        phoneNumber: req.body.phoneNumber,
+        librarian: req.body.librarian
+    }
+
+    const response = await mongodb.getDatabase().db().collection('users').replaceOne({ _id: userId }, user, books);
     console.log(response);
     if (response.modifiedCount > 0) {
         res.status(204).send();
