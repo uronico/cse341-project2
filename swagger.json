@@ -8,14 +8,14 @@
   "host": "localhost:8080",
   "basePath": "/",
   "schemes": [
-    "https",
+    "http",
     "https"
   ],
   "paths": {
     "/": {
       "get": {
         "tags": [
-          "Hello Wolrd"
+          "Hello World"
         ],
         "description": "",
         "responses": {
@@ -25,10 +25,10 @@
         }
       }
     },
-    "/users/": {
+    "/personalinfo/": {
       "get": {
         "tags": [
-          "Users"
+          "personalinfo"
         ],
         "description": "",
         "produces": [
@@ -45,7 +45,7 @@
       },
       "post": {
         "tags": [
-          "Users"
+          "personalinfo"
         ],
         "description": "",
         "parameters": [
@@ -96,16 +96,19 @@
           "204": {
             "description": "No Content"
           },
+          "412": {
+            "description": "Precondition Failed"
+          },
           "500": {
             "description": "Internal Server Error"
           }
         }
       }
     },
-    "/users/{id}": {
+    "/personalinfo/{id}": {
       "get": {
         "tags": [
-          "Users"
+          "personalinfo"
         ],
         "description": "",
         "produces": [
@@ -130,7 +133,7 @@
       },
       "put": {
         "tags": [
-          "Users"
+          "personalinfo"
         ],
         "description": "",
         "parameters": [
@@ -190,6 +193,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "412": {
+            "description": "Precondition Failed"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -197,7 +203,7 @@
       },
       "delete": {
         "tags": [
-          "Users"
+          "personalinfo"
         ],
         "description": "",
         "parameters": [
