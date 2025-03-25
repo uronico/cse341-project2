@@ -40,21 +40,20 @@ const createUser = async (req, res) => {
         phoneNumber: req.body.phoneNumber
     };
 
-    const books = {
-        bookTitle: req.body.bookTitle,
-        authorName: req.body.authorName,
-        borrowerName: req.body.borrowerName,
-        dateBorrowed: req.body.dateBorrowed,
-        dateReturn: req.body.dateReturn,
-        phoneNumber: req.body.phoneNumber,
-        librarian: req.body.librarian,
-        userId: null // This will be set after inserting the user
-    };
-
     try {
         const userResponse = await mongodb.getDatabase().db().collection('personalinfo').insertOne(user);
         if (userResponse.acknowledged) {
-            books.userId = userResponse.insertedId;
+            const books = {
+                bookTitle: req.body.bookTitle,
+                authorName: req.body.authorName,
+                borrowerName: req.body.borrowerName,
+                dateBorrowed: req.body.dateBorrowed,
+                dateReturn: req.body.dateReturn,
+                phoneNumber: req.body.phoneNumber,
+                librarian: req.body.librarian,
+                userId: userResponse.insertedId // Set the userId to the newly created user's ID
+            };
+
             const booksResponse = await mongodb.getDatabase().db().collection('books').insertOne(books);
             if (booksResponse.acknowledged) {
                 res.status(201).send();
@@ -91,7 +90,8 @@ const updateUser = async (req, res) => {
         dateBorrowed: req.body.dateBorrowed,
         dateReturn: req.body.dateReturn,
         phoneNumber: req.body.phoneNumber,
-        librarian: req.body.librarian
+        librarian: req.body.librarian,
+        userId: userId // Ensure the userId is set correctly
     };
 
     try {

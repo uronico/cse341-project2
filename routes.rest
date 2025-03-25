@@ -3,45 +3,43 @@
 GET http://localhost:8080/personalinfo
 
 ### Get contacts by Id
-GET http://localhost:8080/users/67cc93afb1ee6363677edad9
+GET http://localhost:8080/personalinfo/67e052e2306a0d6fe431dc7b
 
 ### Create contact
-POST http://localhost:8080/perosonalinfo HTTP/1.1
+POST http://localhost:8080/personalinfo HTTP/1.1
 Content-Type: application/json
 
 {
-    "firstName": "Nico",
+    "firstName": "Alex",
     "lastName": "Uro",
     "email": "uronico3@gmail.com",
-    "adress": "245 Santa Maria, Laguna, Philippines 4022",
+    "address": "245 Santa Maria, Laguna, Philippines 4022",
     "phoneNumber": "09505358336",
     "bookTitle": "Book Title",
     "authorName": "Author Name",
     "borrowerName": "Borrower Name",
     "dateBorrowed": "2023-01-01",
     "dateReturn": "2023-01-15",
-    "phoneNumber": "09505358336",
     "librarian": "Librarian Name"
 }
 
 ### Update contact
-PUT http://localhost:8080/users/67d48aacebab7a6fc54f93ad HTTP/1.1
+PUT http://localhost:8080/personalinfo/67e3082006d35b53332127a7 HTTP/1.1
 Content-Type: application/json
 
 {
-    "firstName": "Nico",
+    "firstName": "Gary",
     "lastName": "Uro",
     "email": "uronico3@gmail.com",
-    "adress": "245 Santa Maria, Laguna, Philippines 4022",
+    "address": "245 Santa Maria, Laguna, Philippines 4022",
     "phoneNumber": "09505358336",
     "bookTitle": "Book Title",
     "authorName": "Author Name",
     "borrowerName": "Borrower Name",
     "dateBorrowed": "2023-01-01",
     "dateReturn": "2023-01-15",
-    "phoneNumber": "09505358336",
     "librarian": "Librarian Name"
 }
 
 ### Delete contact
-DELETE  http://localhost:8080/users/67d6f18ffb35b01afaa82aca HTTP/1.1
+DELETE http://localhost:8080/personalinfo/67e3082006d35b53332127a7 HTTP/1.1
