@@ -5,9 +5,8 @@ const getAll = async (_req, res) => {
     //#swagger.tags=['personalinfo']
     try {
         const personalinfo = await mongodb.getDatabase().db().collection('personalinfo').find().toArray();
-        const books = await mongodb.getDatabase().db().collection('books').find().toArray();
         res.setHeader('Content-Type', 'application/json');
-        res.status(200).json({ personalinfo, books });
+        res.status(200).json({ personalinfo });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -22,9 +21,8 @@ const getSingle = async (req, res) => {
     const userId = new ObjectId(req.params.id);
     try {
         const personalinfo = await mongodb.getDatabase().db().collection('personalinfo').findOne({ _id: userId });
-        const books = await mongodb.getDatabase().db().collection('books').find({ userId: userId }).toArray();
         res.setHeader('Content-Type', 'application/json');
-        res.status(200).json({ personalinfo, books });
+        res.status(200).json({ personalinfo });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -32,37 +30,21 @@ const getSingle = async (req, res) => {
 
 const createUser = async (req, res) => {
     //#swagger.tags=['personalinfo']
-    const user = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        address: req.body.address,
-        phoneNumber: req.body.phoneNumber
-    };
-
     try {
-        const userResponse = await mongodb.getDatabase().db().collection('personalinfo').insertOne(user);
-        if (userResponse.acknowledged) {
-            const books = {
-                bookTitle: req.body.bookTitle,
-                authorName: req.body.authorName,
-                borrowerName: req.body.borrowerName,
-                dateBorrowed: req.body.dateBorrowed,
-                dateReturn: req.body.dateReturn,
-                phoneNumber: req.body.phoneNumber,
-                librarian: req.body.librarian,
-                userId: userResponse.insertedId // Set the userId to the newly created user's ID
-            };
-
-            const booksResponse = await mongodb.getDatabase().db().collection('books').insertOne(books);
-            if (booksResponse.acknowledged) {
-                res.status(201).send();
-            } else {
-                res.status(500).json(booksResponse.error || 'Some error occurred while creating the books.');
-            }
-        } else {
-            res.status(500).json(userResponse.error || 'Some error occurred while creating the user.');
-        }
+        const user = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            address: req.body.address,
+            phoneNumber: req.body.phoneNumber
+        };
+        const response = await mongodb.getDatabase().db().collection('personalinfo').insertOne(user);
+    if (response.acknowledged > 0) {
+        res.status(204).send();
+    } else {
+        res.status(500),json(response.error || 'Some error accured while updating the user.');
+    }
+        
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -83,25 +65,14 @@ const updateUser = async (req, res) => {
         phoneNumber: req.body.phoneNumber
     };
 
-    const books = {
-        bookTitle: req.body.bookTitle,
-        authorName: req.body.authorName,
-        borrowerName: req.body.borrowerName,
-        dateBorrowed: req.body.dateBorrowed,
-        dateReturn: req.body.dateReturn,
-        phoneNumber: req.body.phoneNumber,
-        librarian: req.body.librarian,
-        userId: userId // Ensure the userId is set correctly
-    };
-
     try {
-        const userResponse = await mongodb.getDatabase().db().collection('personalinfo').replaceOne({ _id: userId }, user);
-        const booksResponse = await mongodb.getDatabase().db().collection('books').replaceOne({ userId: userId }, books);
-        if (userResponse.modifiedCount > 0 && booksResponse.modifiedCount > 0) {
-            res.status(204).send();
-        } else {
-            res.status(500).json(userResponse.error || booksResponse.error || 'Some error occurred while updating the user.');
-        }
+        const response = await mongodb.getDatabase().db().collection('personalinfo').replaceOne({ _id: userId }, user);
+    console.log(response);
+    if (response.modifiedCount > 0) {
+        res.status(204).send();
+    } else {
+        res.status(500),json(response.error || 'Some error accured while updating the user.');
+    }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -115,13 +86,13 @@ const deleteUser = async (req, res) => {
 
     const userId = new ObjectId(req.params.id);
     try {
-        const userResponse = await mongodb.getDatabase().db().collection('personalinfo').deleteOne({ _id: userId });
-        const booksResponse = await mongodb.getDatabase().db().collection('books').deleteMany({ userId: userId });
-        if (userResponse.deletedCount > 0 && booksResponse.deletedCount > 0) {
-            res.status(204).send();
-        } else {
-            res.status(500).json(userResponse.error || booksResponse.error || 'Some error occurred while deleting the user.');
-        }
+        const response = await mongodb.getDatabase().db().collection('personalinfo').deleteOne({ _id: userId });
+    console.log(response);
+    if (response.deletedCount > 0) {
+        res.status(204).send();
+    } else {
+        res.status(500),json(response.error || 'Some error accured while updating the user.');
+    }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

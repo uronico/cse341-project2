@@ -5,9 +5,10 @@
     "description": "Users Api",
     "version": "1.0.0"
   },
-  "host": "cse341-project2-sx0k.onrender.com",
+  "host": "localhost:8080",
   "basePath": "/",
   "schemes": [
+    "http",
     "https"
   ],
   "paths": {
@@ -67,24 +68,6 @@
                   "example": "any"
                 },
                 "phoneNumber": {
-                  "example": "any"
-                },
-                "bookTitle": {
-                  "example": "any"
-                },
-                "authorName": {
-                  "example": "any"
-                },
-                "borrowerName": {
-                  "example": "any"
-                },
-                "dateBorrowed": {
-                  "example": "any"
-                },
-                "dateReturn": {
-                  "example": "any"
-                },
-                "librarian": {
                   "example": "any"
                 }
               }
@@ -162,7 +145,82 @@
                 },
                 "phoneNumber": {
                   "example": "any"
-                },
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "412": {
+            "description": "Precondition Failed"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "personalinfo"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/books/": {
+      "get": {
+        "tags": [
+          "books"
+        ],
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "books"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
                 "bookTitle": {
                   "example": "any"
                 },
@@ -176,6 +234,91 @@
                   "example": "any"
                 },
                 "dateReturn": {
+                  "example": "any"
+                },
+                "phoneNumber": {
+                  "example": "any"
+                },
+                "librarian": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "412": {
+            "description": "Precondition Failed"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/books/{id}": {
+      "get": {
+        "tags": [
+          "books"
+        ],
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "books"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "bookTitle": {
+                  "example": "any"
+                },
+                "authorName": {
+                  "example": "any"
+                },
+                "borrowerName": {
+                  "example": "any"
+                },
+                "dateBorrowed": {
+                  "example": "any"
+                },
+                "dateReturn": {
+                  "example": "any"
+                },
+                "phoneNumber": {
                   "example": "any"
                 },
                 "librarian": {
@@ -202,7 +345,7 @@
       },
       "delete": {
         "tags": [
-          "personalinfo"
+          "books"
         ],
         "description": "",
         "parameters": [

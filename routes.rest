@@ -1,9 +1,16 @@
 // LOCALHOST
+
 ### Get all contacts
 GET http://localhost:8080/personalinfo
 
+### Get all books
+GET http://localhost:8080/books
+
 ### Get contacts by Id
 GET http://localhost:8080/personalinfo/67e052e2306a0d6fe431dc7b
+
+### Get books by Id
+GET http://localhost:8080/books/67e30297824ddc39fab0c7b7
 
 ### Create contact
 POST http://localhost:8080/personalinfo HTTP/1.1
@@ -14,32 +21,51 @@ Content-Type: application/json
     "lastName": "Uro",
     "email": "uronico3@gmail.com",
     "address": "245 Santa Maria, Laguna, Philippines 4022",
-    "phoneNumber": "09505358336",
+    "phoneNumber": "09505358336"
+}
+
+### Create books by Id
+POST http://localhost:8080/books HTTP/1.1
+Content-Type: application/json
+
+{
     "bookTitle": "Book Title",
     "authorName": "Author Name",
     "borrowerName": "Borrower Name",
     "dateBorrowed": "2023-01-01",
     "dateReturn": "2023-01-15",
+    "phoneNumber": "09505358336",
     "librarian": "Librarian Name"
 }
 
 ### Update contact
-PUT http://localhost:8080/personalinfo/67e3082006d35b53332127a7 HTTP/1.1
+PUT http://localhost:8080/personalinfo/67e81d3852156dfd8a7ff16f HTTP/1.1
 Content-Type: application/json
 
 {
-    "firstName": "Gary",
+    "firstName": "Craig",
     "lastName": "Uro",
     "email": "uronico3@gmail.com",
     "address": "245 Santa Maria, Laguna, Philippines 4022",
-    "phoneNumber": "09505358336",
+    "phoneNumber": "09505358336"
+}
+
+### Update books by Id
+PUT http://localhost:8080/books/67e81dbfa5af175883b8c605 HTTP/1.1
+Content-Type: application/json
+
+{
     "bookTitle": "Book Title",
     "authorName": "Author Name",
     "borrowerName": "Borrower Name",
     "dateBorrowed": "2023-01-01",
     "dateReturn": "2023-01-15",
-    "librarian": "Librarian Name"
+    "phoneNumber": "09505358336",
+    "librarian": "Charing"
 }
 
 ### Delete contact
-DELETE http://localhost:8080/personalinfo/67e3082006d35b53332127a7 HTTP/1.1
+DELETE http://localhost:8080/personalinfo/67e81d3852156dfd8a7ff16f HTTP/1.1
+
+### Delete books by Id
+DELETE http://localhost:8080/books/67e81dbfa5af175883b8c605 HTTP/1.1
