@@ -3,16 +3,17 @@ const router = express.Router();
 
 const booksController = require('../controllers/books');
 const validation = require('../validator/bookValidator');
+const {isAuthenticated} = require('../validator/authenticate');
 
 router.get('/', booksController.getAllbooks);
 
 router.get('/:id', booksController.getSinglebooks);
 
-router.post('/', validation.saveBooks, booksController.createUserbooks);
+router.post('/', isAuthenticated, validation.saveBooks, booksController.createUserbooks);
 
-router.put('/:id', validation.saveBooks, booksController.updateUserbooks);
+router.put('/:id', isAuthenticated, validation.saveBooks, booksController.updateUserbooks);
 
-router.delete('/:id', booksController.deleteUserbooks);
+router.delete('/:id', isAuthenticated, booksController.deleteUserbooks);
 
 module.exports = router;
 
