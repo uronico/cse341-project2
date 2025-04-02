@@ -1,30 +1,35 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('./data/database');
 const app = express();
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const GitHubStrategy = require('passport-github2').Strategy;
 const cors = require('cors');
 
 const port = process.env.PORT || 8080;
 
+// Middleware for parsing JSON
 app.use(bodyParser.json());
 
-app
-.use(session({
-    secret: 'secret',
+// Session middleware with MongoStore
+app.use(session({
+    secret: 'your-secret-key',
     resave: false,
     saveUninitialized: true,
-}))
-// This is the basic express session({..}) initialization
-.use(passport.initialize())
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URL, // Use your MongoDB connection string
+        collectionName: 'sessions'
+    })
+}));
 
-// init passport on every route call
-.use(passport.session())
+// Initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
 
-
+// CORS middleware
 app.use((_req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
@@ -35,21 +40,20 @@ app.use((_req, res, next) => {
     next();
 });
 
-app.use(cors({ methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] }))
-.use(cors({ origin: '*' }))
-.use('/', require('./routes/index.js'));
+app.use(cors({ methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] }));
+app.use(cors({ origin: '*' }));
 
+// Configure GitHub strategy
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: process.env.CALLBACK_URL
-    },
-    function(accessToken, refreshToken, profile, done) {
-        // Save user to database or perform any other operations
-        return done(null, profile);
-    }
-));
+}, (accessToken, refreshToken, profile, done) => {
+    // Save user to database or perform any other operations
+    return done(null, profile);
+}));
 
+// Serialize and deserialize user
 passport.serializeUser((user, done) => {
     done(null, user);
 });
@@ -59,22 +63,21 @@ passport.deserializeUser((user, done) => {
 
 app.get('/', (req, res) => { res.send(req.session.user !== undefined ? 'Logged In as ${req.session.user.displayName}' : 'Logged Out') });
 
+// Routes
 app.use('/', require('./routes'));
 
+// Error handling for uncaught exceptions
 process.on('uncaughtException', (err, origin) => {
-    console.log(process.stderr.fd, `Caught exception: ${err}\n` + `Exception origin: ${origin}`);
-  });
+    console.error(`Caught exception: ${err}\nException origin: ${origin}`);
+});
 
+// Initialize database and start server
 mongodb.initDb((err) => {
     if (err) {
-        console.log(err);
+        console.error(err);
+    } else {
+        app.listen(port, () => {
+            console.log(`Database is connected and server is running on port ${port}`);
+        });
     }
-
-    else {
-        app.listen(port, () => {console.log(`Database is listening and node is Running on port ${port}`)});
-    }
-})
-
-
-
-
+});
