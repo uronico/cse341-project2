@@ -11,6 +11,10 @@ const cors = require('cors');
 
 const port = process.env.PORT || 8080;
 
+console.log('GITHUB_CLIENT_ID:', process.env.GITHUB_CLIENT_ID);
+console.log('GITHUB_CLIENT_SECRET:', process.env.GITHUB_CLIENT_SECRET);
+console.log('CALLBACK_URL:', process.env.CALLBACK_URL);
+
 // Middleware for parsing JSON
 app.use(bodyParser.json());
 
