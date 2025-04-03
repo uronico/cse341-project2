@@ -47,6 +47,9 @@ app.use((_req, res, next) => {
 app.use(cors({ methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] }));
 app.use(cors({ origin: '*' }));
 
+// Routes
+app.use('/', require('./routes'));
+
 // Configure GitHub strategy
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
@@ -76,9 +79,6 @@ app.get('/github/callback', passport.authenticate('github', {
     req.session.user = req.user
     res.redirect('/')
   })
-
-// Routes
-app.use('/', require('./routes'));
 
 // Error handling for uncaught exceptions
 process.on('uncaughtException', (err, origin) => {
